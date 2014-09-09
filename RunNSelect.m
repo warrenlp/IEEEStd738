@@ -5,6 +5,7 @@ switch NSELECT
         
     case 2
         TCDR = TCDRPRELOAD;
+        % 15000
         CalcThermalRatingGivenTCDRCondParamsWeatcond();
     case 3
         
