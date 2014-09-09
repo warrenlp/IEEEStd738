@@ -3,3 +3,6 @@ clear
 
 InitVariablesArrays();
 DataEntry();
+CalcCondSolarHeatGainQS();
+CalcThermCoefRacHeatCapWindCorr();
+RunNSelect();

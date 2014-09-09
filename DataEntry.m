@@ -3,31 +3,37 @@
 fileID = fopen(FILENAME);
 
 NSELECT = cell2mat(textscan(fgets(fileID), '%d %*s'))
-if ((NSELECT == 3) || (NSELECT == 4))
-    IORTPRELOAD = cell2mat(textscan(fgets(fileID), '%d %*s'))
-    if (IORTPRELOAD == 1)
+
+switch NSELECT
+    case 1
         XIPRELOAD = cell2mat(textscan(fgets(fileID), '%d %*s'))
-    elseif (IORTPRELOAD == 2)
-        TCDRPRELOAD = cell2mat(textscan(fgets(fileID), '%d %*s'))
-    end
-end
-
-if (NSELECT == 4)
-    TCDRMAX = cell2mat(textscan(fgets(fileID), '%d %*s'))
-else
-    TCDRMAX = 1000
-end
-
-if (NSELECT == 3)
-    XISTEP = cell2mat(textscan(fgets(fileID), '%d %*s'))
-end
-
-SORM = cell2mat(textscan(fgets(fileID), '%d %*s'))
-TT = cell2mat(textscan(fgets(fileID), '%d %*s'))
-DELTIME = cell2mat(textscan(fgets(fileID), '%d %*s'))
-
-if (SORM ==1)
-    TT = TT * 60;
+    case 2
+        TCDRPRELOAD = cell2mat(textscan(fgets(fileID), '%f %*s'))
+    case {3,4}
+        IORTPRELOAD = cell2mat(textscan(fgets(fileID), '%d %*s'))
+        if (IORTPRELOAD == 1)
+            XIPRELOAD = cell2mat(textscan(fgets(fileID), '%d %*s'))
+        elseif (IORTPRELOAD == 2)
+            TCDRPRELOAD = cell2mat(textscan(fgets(fileID), '%d %*s'))
+        end
+        
+        if (NSELECT == 4)
+            TCDRMAX = cell2mat(textscan(fgets(fileID), '%d %*s'))
+        else
+            TCDRMAX = 1000
+        end
+        
+        if (NSELECT == 3)
+            XISTEP = cell2mat(textscan(fgets(fileID), '%d %*s'))
+        end
+        
+        SORM = cell2mat(textscan(fgets(fileID), '%d %*s'))
+        TT = cell2mat(textscan(fgets(fileID), '%d %*s'))
+        DELTIME = cell2mat(textscan(fgets(fileID), '%d %*s'))
+        
+        if (SORM ==1)
+            TT = TT * 60;
+        end
 end
 
 % Weather Data
@@ -45,6 +51,7 @@ C = cell2mat(textscan(fgets(fileID), '%f %f %*s'))
 RLO = C(1,1) / 1000
 RHI = C(1,2) / 1000
 
+% Conductor data specific to Transient Calcs
 if ((NSELECT == 3) || (NSELECT == 4))
     HNH = cell2mat(textscan(fgets(fileID), '%d %*s'))
     if (HNH == 1)
@@ -55,23 +62,24 @@ if ((NSELECT == 3) || (NSELECT == 4))
         HEATOUT = C(1,1)
         HEATCORE = C(1,2)
     end
+    HEATCAP = HEATOUT + HEATCORE
 end
 
-HEATCAP = HEATOUT + HEATCORE
+% Solar Heating Data
 C = cell2mat(textscan(fgets(fileID), '%f %f %*s'))
 EMISS = C(1,1)
 ABSORP = C(1,2)
 CDR_ELEV = cell2mat(textscan(fgets(fileID), '%f %*s'))
 Z1_DEG = cell2mat(textscan(fgets(fileID), '%f %*s'))
 
-% Solar Heating Data
+% Specify Latitude and Sun Time
 CDR_LAT_DEG = cell2mat(textscan(fgets(fileID), '%f %*s'))
 C = textscan(fgets(fileID), '%f %d %*s')
 SUN_TIME = cell2mat(C(1,1))
 NDAY = cell2mat(C(1,2))
 C = textscan(fgets(fileID), '%f %s %*s')
 A3 = cell2mat(C(1,1))
-B = C(1,2)
+B = C(1,2);
 BSTR = B{1}
 
 fclose(fileID);
