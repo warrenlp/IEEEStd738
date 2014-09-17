@@ -1,20 +1,40 @@
 % Sub 14000
-function [] = GuessInitialBoundsForIteration(NFLAG, TAMB, AT)
+% GuessInitialBoundsForIteration
+DIV = 10.0;
+if (NFLAG == 0)
+    XLO = TAMB;
+    XHI = 1000.0;
+elseif (NFLAG == 1)
+    XLO = 0.0;
+    XHI = 10*AT;
+end
 
-    if (NFLAG == 0)
-        XLO = TAMB;
-        XHI = 1000;
-        DIV = 10;
-    elseif (NFLAG == 1)
-        XLO = 0;
-        XHI = 10*AT;
-        DIV  =10;
+CHA = (XHI - XLO) / DIV;
+NUM = DIV;
+X = XLO;
+
+% 14060 GOSUB 12000
+IterateToFindCondTempGivenCurrent();
+
+FO = TEMP;
+
+jump = false;
+for JK =1:NUM
+    X = XLO + JK * CHA;
+    % 14090 GOSUB 12000
+    IterateToFindCondTempGivenCurrent();
+    FF = TEMP;
+    if ((sign(FF) + sign(FO)) == 0)
+        jump = true;
+        break;
     end
-    
-    CHA = (XHI - XLO) / DIV;
-    NUM = DIV;
-    X = XLO;
-   
-    
-    
+    FO = FF; 
+end
+
+if (jump)
+    XRI = X;
+    XLI = X - CHA;
+else
+    XLI = XLO;
+    XRI = XHI;
 end

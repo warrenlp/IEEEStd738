@@ -14,9 +14,10 @@
     % TODO: XSTR = 
     NFLAG = 0;
     PIANG = pi / 180;
+    DEBUG = 0;
     
     % Uncomment input filename you wish to process
-    %FILENAME = 'SSCondTemp.txt'; % NSELECT=1
+    FILENAME = 'SSCondTemp.txt'; % NSELECT=1
     %FILENAME = 'SSThermRatingCalc.txt'; % NSELECT=2
     %FILENAME = 'NumCalcTransientCondTemp.txt'; % NSELECT=3
-    FILENAME = 'NumCalcTransientCondThermRating.txt'; % NSELECT=3
+    %FILENAME = 'NumCalcTransientCondThermRating.txt'; % NSELECT=3

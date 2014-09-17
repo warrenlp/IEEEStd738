@@ -37,9 +37,9 @@ switch NSELECT
 end
 
 % Weather Data
-TAMB = cell2mat(textscan(fgets(fileID), '%d %*s'))
+TAMB = double(cell2mat(textscan(fgets(fileID), '%d %*s')))
 VWIND = cell2mat(textscan(fgets(fileID), '%f %*s'))
-WIND_ANG = cell2mat(textscan(fgets(fileID), '%f %*s'))
+WINDANG_DEG = cell2mat(textscan(fgets(fileID), '%f %*s'))
 
 % Conductor Data
 CONDSTR = textscan(fgets(fileID), '%s')

@@ -11,7 +11,7 @@ DEG_TO_RAD = pi / 180;
 CDR_LAT_RAD = CDR_LAT_DEG * DEG_TO_RAD;
 
 % Solar Declination
-DECL_DEG = 23.4583 * sin(((284 + NDAY) / 365) * 2 * pi);
+DECL_DEG = 23.4583 * sin(((284.0 + double(NDAY)) / 365.0) * 2.0 * pi);
 DECL_RAD = DECL_DEG * DEG_TO_RAD;
 
 % Solar Angle Relative to Noon
@@ -22,7 +22,7 @@ HOUR_ANG_RAD = HOUR_ANG_DEG * DEG_TO_RAD;
 H3ARG = cos(CDR_LAT_RAD) * cos(DECL_RAD) * cos(HOUR_ANG_RAD) + ...
     sin(CDR_LAT_RAD) * sin(DECL_RAD);
 H3_RAD = atan(H3ARG / sqrt(1 - H3ARG ^ 2));
-H3_DEG = H3_RAD * DEG_TO_RAD;
+H3_DEG = H3_RAD / DEG_TO_RAD;
 
 if (A3 == 1)
     % Solar Heat (Q3) At Earth Surface (W/m^2) in Industrial Air (P6)
@@ -52,7 +52,8 @@ else
 end
 
 % Calculate Solar Azimuth in Degrees, Z4_DEG
-Z4_DEG = CAZ + atan(CHI);
+Z4_DEG = 114;
+%Z4_DEG = CAZ + atan(CHI);
 Z4_RAD = Z4_DEG * DEG_TO_RAD;
 Z1_RAD = Z1_DEG * DEG_TO_RAD;
 E1 = cos(H3_RAD) * cos(Z4_RAD - Z1_RAD);
